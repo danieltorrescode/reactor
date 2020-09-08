@@ -1,6 +1,8 @@
 .App {
   text-align: center;
-  background-color: #3082db;
+  background-color: #d4d7db;;
+  color: black;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -36,4 +38,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.App-Col{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
 }
