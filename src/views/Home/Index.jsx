@@ -1,5 +1,5 @@
 import React from 'react';
-import './Home.css';
+import './styles.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
-class Home extends React.Component {
+class Index extends React.Component {
     render() {
       return (
         <Container fluid>
@@ -84,4 +84,4 @@ class Home extends React.Component {
     }
   }
 
-export default Home;
+export default Index;

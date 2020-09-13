@@ -1,8 +1,10 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Table from 'react-bootstrap/Table';
+import AppListButtons from 'components/AppListButtons';
 
-class TodoList extends React.Component {
+
+class List extends React.Component {
 
     constructor(props) {
         super(props);
@@ -10,7 +12,13 @@ class TodoList extends React.Component {
         this.baseUrl =  process.env.REACT_APP_BASE_URL;
         this.url =  `${this.baseUrl}/${this.resource}`;
         this.state = {
-            listData:[]
+            listData:[],
+            tableHeader: [
+                "ID",
+                "Title",
+                "Body",
+                "Actions",
+            ],
         };
     }
 
@@ -21,14 +29,6 @@ class TodoList extends React.Component {
     }
 
     getList(){
-        // let content = {
-        //     method: "GET",
-        //     headers:{
-        //         'Authorization': `${localStorage.getItem("token")}`,
-        //         'Content-Type': 'application/json',
-        //     },
-        // };
-
         fetch(this.url)
         .then(response => response.json())
         .then(json => this.list(json))
@@ -37,14 +37,43 @@ class TodoList extends React.Component {
         });
     }
 
-    Items(listItems) {
+
+    updateItem = (id) => {
+        let message = `Updated Item: ${id}`;
+        let title = "updateItem";
+        let type = "warning";
+        console.log(`${message} ${title} ${type}`)
+        
+    }
+
+    delteItem = (id) => {
+        let message = `Delete Item: ${id}`;
+        let title = "delteItem";
+        let type = "warning";
+        console.log(`${message} ${title} ${type}`)
+    }
+
+    tableItems(listItems) {
         return listItems.map(
             (item) =>  
                 <tr  key={item.id} >
                     <td>{ item.id}</td>
                     <td>{ item.title}</td>
                     <td>{ item.body}</td>
+                    <td> 
+                        <AppListButtons 
+                        id={item.id} 
+                        updateItem={this.updateItem} 
+                        delteItem={this.delteItem} /> 
+                    </td>
                 </tr>
+        );
+    }
+
+    tableHeader(headers) {
+        return headers.map(
+            (item,index) =>  
+                <th key={index}>{ item }</th>
         );
     }
 
@@ -53,26 +82,20 @@ class TodoList extends React.Component {
         this.getList();
     }
 
-    componentWillUnmount() {
-        console.log("componentWillUnmount")
-    }
-
     render() {
         return (
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>body</th>
+                        { this.tableHeader(this.state.tableHeader) }
                     </tr>
                 </thead>
                 <tbody>
-                    { this.Items(this.state.listData) }
+                    { this.tableItems(this.state.listData) }
                 </tbody>
             </Table>
         );
     }
   }
 
-export default TodoList;
+export default List;

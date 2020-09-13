@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-class TodoForm extends React.Component {
+class CustomForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -86,4 +86,4 @@ class TodoForm extends React.Component {
     }
   }
 
-export default TodoForm;
+export default CustomForm;
