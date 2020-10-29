@@ -13,7 +13,9 @@ import AppModal from 'components/AppModal';
 class Index extends React.Component {
   constructor(props) {
     super(props);
-    this.resource = 'posts/1';
+    this.resource = 'tasks';
+    this.baseUrl = process.env.REACT_APP_BASE_URL;
+    this.url = `${this.baseUrl}/${this.resource}`;
     this.state = {
       message: 'null',
       title: 'null',

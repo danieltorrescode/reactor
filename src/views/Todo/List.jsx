@@ -11,18 +11,26 @@ class List extends React.Component {
     this.url = `${this.baseUrl}/${this.resource}`;
     this.state = {
       listData: [],
-      tableHeader: ['ID', 'Title', 'Body', 'Actions'],
+      tableHeader: ['ID', 'Name', 'Description', 'Actions'],
     };
   }
 
   list(data) {
     this.setState({
-      listData: [data],
+      listData: data,
     });
   }
 
   getList() {
-    fetch(this.url)
+    let content = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${localStorage.getItem('token')}`,
+      },
+    };
+
+    fetch(this.url, content)
       .then((response) => response.json())
       .then((json) => this.list(json))
       .catch((error) => {
@@ -37,24 +45,45 @@ class List extends React.Component {
     console.log(`${message} ${title} ${type}`);
   };
 
-  delteItem = (id) => {
+  deleteItem = (id) => {
     let message = `Delete Item: ${id}`;
     let title = 'delteItem';
     let type = 'warning';
-    console.log(`${message} ${title} ${type}`);
+    let resource = `${this.url}/${id}`;
+
+    let content = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${localStorage.getItem('token')}`,
+      },
+    };
+    fetch(resource, content)
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.task._id) {
+          console.log(json);
+          console.log(`${message} ${title} ${type}`);
+          // this.showMessage(json.text, 'success');
+        }
+        this.getList();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   };
 
   tableItems(listItems) {
     return listItems.map((item) => (
-      <tr key={item.id}>
-        <td>{item.id}</td>
-        <td>{item.title}</td>
-        <td>{item.body}</td>
+      <tr key={item._id}>
+        <td>{item._id}</td>
+        <td>{item.name}</td>
+        <td>{item.description}</td>
         <td>
           <AppListButtons
-            id={item.id}
+            id={item._id}
             updateItem={this.updateItem}
-            delteItem={this.delteItem}
+            delteItem={this.deleteItem}
           />
         </td>
       </tr>
