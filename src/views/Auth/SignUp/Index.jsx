@@ -30,7 +30,7 @@ class Index extends React.Component {
 
     this.handleChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.formCancel = this.formCancel.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   componentDidMount() {
@@ -78,7 +78,7 @@ class Index extends React.Component {
     event.preventDefault();
   }
 
-  formCancel() {
+  handleCancel() {
     this.setState({ email: '' });
     this.setState({ password: '' });
   }
@@ -132,7 +132,7 @@ class Index extends React.Component {
             <Button variant="outline-primary" onClick={this.handleSubmit}>
               Enviar
             </Button>{' '}
-            <Button variant="outline-secondary" onClick={this.formCancel}>
+            <Button variant="outline-secondary" onClick={this.handleCancel}>
               Cancelar
             </Button>{' '}
           </Form>

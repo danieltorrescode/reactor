@@ -38,11 +38,14 @@ class List extends React.Component {
       });
   }
 
-  updateItem = (id) => {
+  selectItem = (id) => {
     let message = `Updated Item: ${id}`;
     let title = 'updateItem';
     let type = 'warning';
     console.log(`${message} ${title} ${type}`);
+    // this.state.listData.map(item => console.log(item));
+    let item = this.state.listData.filter((item) => item._id === id);
+    this.props.selectedItem(item[0]);
   };
 
   deleteItem = (id) => {
@@ -82,7 +85,7 @@ class List extends React.Component {
         <td>
           <AppListButtons
             id={item._id}
-            updateItem={this.updateItem}
+            selectItem={this.selectItem}
             delteItem={this.deleteItem}
           />
         </td>
@@ -99,6 +102,12 @@ class List extends React.Component {
     this.getList();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.updateList !== this.props.updateList) {
+      this.getList();
+    }
+  }
+
   render() {
     return (
       <Table striped bordered hover>
@@ -113,6 +122,8 @@ class List extends React.Component {
 
 List.propTypes = {
   resource: PropTypes.string,
+  updateList: PropTypes.bool,
+  selectedItem: PropTypes.func,
 };
 
 export default List;

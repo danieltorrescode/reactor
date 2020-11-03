@@ -14,14 +14,14 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.resource = 'tasks';
-    this.baseUrl = process.env.REACT_APP_BASE_URL;
-    this.url = `${this.baseUrl}/${this.resource}`;
     this.state = {
       message: 'null',
       title: 'null',
       type: 'success',
       showMessage: true,
-      showFormModal: false,
+      showModal: false,
+      updateList: false,
+      selectedItem: {},
     };
   }
 
@@ -33,8 +33,8 @@ class Index extends React.Component {
     // console.log("componentWillUnmount")
   }
 
-  showFormModal = () => {
-    this.setState({ showFormModal: !this.state.showFormModal });
+  toggleModal = () => {
+    this.setState({ showModal: !this.state.showModal });
     this.setState({ showMessage: true });
   };
 
@@ -42,8 +42,24 @@ class Index extends React.Component {
     this.setState({ showMessage: !this.state.showMessage });
   };
 
+  updateList = () => {
+    this.setState({ updateList: !this.state.updateList });
+  };
+
+  selectedItem = (item) => {
+    this.setState({ selectedItem: { ...item } });
+    this.toggleModal();
+  };
+
   render() {
-    const form = <Form resource={this.resource}></Form>;
+    const form = (
+      <Form
+        resource={this.resource}
+        selectedItem={this.state.selectedItem}
+        updateList={this.updateList}
+        toggleModal={this.toggleModal}
+      ></Form>
+    );
     return (
       <Container fluid>
         <br />
@@ -66,18 +82,22 @@ class Index extends React.Component {
         </Row>
 
         <Row className="mb-5 d-flex justify-content-center">
-          <Button onClick={this.showFormModal}>Large modal</Button>
+          <Button onClick={this.toggleModal}>Large modal</Button>
           <AppModal
             form={form}
-            show={this.state.showFormModal}
-            showFormModal={this.showFormModal}
+            show={this.state.showModal}
+            toggleModal={this.toggleModal}
           />
         </Row>
 
         <br />
         <h1>List</h1>
         <Row className="mb-5 d-flex justify-content-center">
-          <List resource={this.resource}></List>
+          <List
+            resource={this.resource}
+            updateList={this.state.updateList}
+            selectedItem={this.selectedItem}
+          ></List>
         </Row>
       </Container>
     );

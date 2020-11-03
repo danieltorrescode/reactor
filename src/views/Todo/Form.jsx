@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import 'bootstrap/dist/css/bootstrap.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -6,54 +7,69 @@ import Button from 'react-bootstrap/Button';
 class CustomForm extends React.Component {
   constructor(props) {
     super(props);
+    this.resource = this.props.resource;
+    this.baseUrl = process.env.REACT_APP_BASE_URL;
+    this.url = `${this.baseUrl}/${this.resource}`;
     this.state = {
-      formData: {
-        task: '',
-        description: '',
-      },
+      action: '',
+      selectedItem: {},
+      name: '',
+      description: '',
     };
 
     this.handleChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.formSubmit = this.formSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleInputChange(event) {
-    // console.log(this.setState);
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const id = target.id;
-
-    this.setState((prevState) => ({
-      formData: {
-        ...prevState.formData,
-        [id]: value,
-      },
-    }));
+    this.setState({ [id]: value });
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
     event.preventDefault();
-  }
 
-  formSubmit() {
-    let newItem = {
-      id: this.state.listData.length + 1,
-      title: this.state.formData.task,
-      body: this.state.formData.description,
+    let body = {
+      name: this.state.name,
+      description: this.state.description,
     };
 
-    // validations
-    // if true send it
-    //  if false show alert
-    this.setState((state) => ({
-      listData: [...state.listData, newItem],
-    }));
+    let content = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(body),
+    };
+
+    fetch(this.url, content)
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        this.props.updateList();
+        this.handleCancel();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 
-  formCancel() {
-    alert('cancel');
+  handleCancel() {
+    this.setState({ name: '' });
+    this.setState({ description: '' });
+    this.props.toggleModal();
+  }
+
+  componentDidMount() {
+    if ('_id' in this.props.selectedItem) {
+      this.setState({ selectedItem: { ...this.props.selectedItem } });
+      this.setState({ name: this.props.selectedItem.name });
+      this.setState({ description: this.props.selectedItem.description });
+    }
   }
 
   render() {
@@ -64,8 +80,8 @@ class CustomForm extends React.Component {
           <Form.Control
             type="text"
             placeholder="Task"
-            id="task"
-            value={this.state.formData.task}
+            id="name"
+            value={this.state.name}
             onChange={this.handleChange}
           />
         </Form.Group>
@@ -75,19 +91,26 @@ class CustomForm extends React.Component {
             as="textarea"
             rows="3"
             id="description"
-            value={this.state.formData.description}
+            value={this.state.description}
             onChange={this.handleChange}
           />
         </Form.Group>
-        <Button variant="outline-primary" onClick={this.formSubmit}>
+        <Button variant="outline-primary" onClick={this.handleSubmit}>
           Guardar
         </Button>{' '}
-        <Button variant="outline-secondary" onClick={this.formCancel}>
+        <Button variant="outline-secondary" onClick={this.handleCancel}>
           Cancelar
         </Button>{' '}
       </Form>
     );
   }
 }
+
+CustomForm.propTypes = {
+  selectedItem: PropTypes.object,
+  resource: PropTypes.string,
+  updateList: PropTypes.func,
+  toggleModal: PropTypes.func,
+};
 
 export default CustomForm;

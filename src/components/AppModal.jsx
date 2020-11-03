@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import 'bootstrap/dist/css/bootstrap.css';
 import Modal from 'react-bootstrap/Modal';
 
-class AppComponent extends React.Component {
+class AppModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +20,7 @@ class AppComponent extends React.Component {
       <Modal
         size="lg"
         show={this.props.show}
-        onHide={this.props.showFormModal}
+        onHide={this.props.toggleModal}
         aria-labelledby="example-modal-sizes-title-lg"
       >
         <Modal.Header closeButton>
@@ -32,10 +32,10 @@ class AppComponent extends React.Component {
   }
 }
 
-AppComponent.propTypes = {
+AppModal.propTypes = {
   show: PropTypes.bool,
-  showFormModal: PropTypes.bool,
+  toggleModal: PropTypes.func,
   form: PropTypes.element,
 };
 
-export default AppComponent;
+export default AppModal;
