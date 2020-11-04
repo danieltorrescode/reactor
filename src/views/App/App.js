@@ -24,7 +24,7 @@ function App() {
           ) : (
             <Redirect
               to={{
-                pathname: '/',
+                pathname: '/login',
                 state: { from: location },
               }}
             />

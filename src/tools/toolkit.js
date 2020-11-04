@@ -10,7 +10,7 @@ const regExpr = (expr) => {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(expr);
 };
 
-function authenticate(json,history) {
+function authenticate(json, history) {
   console.log(json);
 
   if ('token' in json) {
@@ -28,6 +28,13 @@ function authenticate(json,history) {
 function logout() {
   localStorage.removeItem('token');
   localStorage.setItem('user', '{}');
+  location.replace('/');
 }
 
-export { regExpr, getTodaysDate, authenticate, logout };
+function checkAuth(status) {
+  if (status === 401) {
+    logout();
+  }
+}
+
+export { regExpr, getTodaysDate, authenticate, logout, checkAuth };

@@ -43,6 +43,7 @@ class Index extends React.Component {
   };
 
   updateList = () => {
+    this.setState({ selectedItem: {} });
     this.setState({ updateList: !this.state.updateList });
   };
 

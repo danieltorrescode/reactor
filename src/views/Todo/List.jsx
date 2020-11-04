@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { checkAuth } from 'tools/toolkit';
 import 'bootstrap/dist/css/bootstrap.css';
 import Table from 'react-bootstrap/Table';
 import AppListButtons from 'components/AppListButtons';
@@ -30,19 +31,25 @@ class List extends React.Component {
       },
     };
 
+    let status = null;
     fetch(this.url, content)
-      .then((response) => response.json())
+      .then((response) => {
+        status = response.status;
+        return response.json();
+      })
       .then((json) => this.list(json))
       .catch((error) => {
         console.error('Error:', error);
+        console.error('Error:', status);
+        checkAuth(status);
       });
   }
 
   selectItem = (id) => {
-    let message = `Updated Item: ${id}`;
-    let title = 'updateItem';
-    let type = 'warning';
-    console.log(`${message} ${title} ${type}`);
+    // let message = `Updated Item: ${id}`;
+    // let title = 'updateItem';
+    // let type = 'warning';
+    // console.log(`${message} ${title} ${type}`);
     // this.state.listData.map(item => console.log(item));
     let item = this.state.listData.filter((item) => item._id === id);
     this.props.selectedItem(item[0]);
@@ -98,7 +105,7 @@ class List extends React.Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
+    // console.log('componentDidMount');
     this.getList();
   }
 

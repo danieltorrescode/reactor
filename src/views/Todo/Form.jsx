@@ -37,8 +37,15 @@ class CustomForm extends React.Component {
       description: this.state.description,
     };
 
+    let url = this.url;
+    let method = 'POST';
+    if (this.state.action === 'Update') {
+      url = `${this.url}/${this.state.selectedItem._id}`;
+      method = 'PUT';
+    }
+
     let content = {
-      method: 'POST',
+      method: method,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `${localStorage.getItem('token')}`,
@@ -46,7 +53,7 @@ class CustomForm extends React.Component {
       body: JSON.stringify(body),
     };
 
-    fetch(this.url, content)
+    fetch(url, content)
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
@@ -66,9 +73,12 @@ class CustomForm extends React.Component {
 
   componentDidMount() {
     if ('_id' in this.props.selectedItem) {
+      this.setState({ action: 'Update' });
       this.setState({ selectedItem: { ...this.props.selectedItem } });
       this.setState({ name: this.props.selectedItem.name });
       this.setState({ description: this.props.selectedItem.description });
+    } else {
+      this.setState({ action: 'Save' });
     }
   }
 
@@ -96,10 +106,10 @@ class CustomForm extends React.Component {
           />
         </Form.Group>
         <Button variant="outline-primary" onClick={this.handleSubmit}>
-          Guardar
+          {this.state.action}
         </Button>{' '}
         <Button variant="outline-secondary" onClick={this.handleCancel}>
-          Cancelar
+          Cancel
         </Button>{' '}
       </Form>
     );
