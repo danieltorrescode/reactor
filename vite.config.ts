@@ -13,7 +13,7 @@ export default defineConfig({
       "@/styles": "/src/styles",
       "@/assets": "/src/assets",
       "@/components": "/src/components",
-      "@/pages": "/src/pages",
+      "@/views": "/src/views",
       "@/redux": "/src/redux",
       "@/helpers": "/src/helpers",
     },
