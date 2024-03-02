@@ -6,16 +6,21 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-
 import Fab from '@mui/material/Fab';
+import Link from '@mui/material/Link';
+
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 
 import TaskForm from '../components/taskForm';
 
 import { Task } from '../types';
+
+const fabStyle = {
+  position: 'relative',
+  left: '45%',
+};
 
 export default function Tasks() {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -105,18 +110,24 @@ export default function Tasks() {
 
   return (
     <>
-      <Fab color="primary" aria-label="add" onClick={() => handleClickOpen()}>
-        <AddIcon />
-      </Fab>
       <TaskForm open={open} handleClose={handleClose} task={task} />
       <TableContainer component={Paper}>
+        <Fab
+          sx={fabStyle}
+          size="small"
+          color="primary"
+          aria-label="add"
+          onClick={() => handleClickOpen()}
+        >
+          <AddIcon />
+        </Fab>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="center">ID</TableCell>
               <TableCell align="center">Name</TableCell>
               <TableCell align="center">Description</TableCell>
-              <TableCell align="center">Actions</TableCell>
+              <TableCell align="center"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -126,7 +137,9 @@ export default function Tasks() {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell align="center" onClick={() => selectItem(row?._id)}>
-                  {row._id}
+                  <Link href="#" underline="hover">
+                    {row._id}
+                  </Link>
                 </TableCell>
                 <TableCell align="center" component="th" scope="row">
                   {row.name}

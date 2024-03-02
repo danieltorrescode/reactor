@@ -1,6 +1,5 @@
 import reactLogo from '@/assets/react.svg';
 import viteLogo from '/vite.svg';
-import '../styles.css';
 
 function Home() {
   return (

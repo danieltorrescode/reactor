@@ -105,7 +105,7 @@ const TaskForm = function ({ open, handleClose, task }: TaskFormProps) {
         onSubmit: handleSubmit,
       }}
     >
-      <DialogTitle>Subscribe</DialogTitle>
+      <DialogTitle>Task Form</DialogTitle>
       <DialogContent>
         <Box sx={{ mt: 3 }}>
           <Grid container spacing={2}>

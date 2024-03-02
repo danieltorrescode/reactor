@@ -1,12 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import theme from '../assets/theme.ts';
-import CssBaseline from '@mui/material/CssBaseline';
+// import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 
 // import reactLogo from '@/assets/react.svg';
 // import viteLogo from '/vite.svg';
-import '../styles.css';
 
 import Home from './home.tsx';
 import Login from './login.tsx';
@@ -19,7 +18,7 @@ import LoggedIn from '../components/LoggedIn.tsx';
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<NavBar />}>
