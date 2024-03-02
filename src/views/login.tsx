@@ -40,7 +40,7 @@ function Login() {
     fetch(url, content)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
+        // console.log(json);
 
         if ('token' in json) {
           const token = json.token;

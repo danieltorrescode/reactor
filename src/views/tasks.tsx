@@ -92,7 +92,7 @@ export default function Tasks() {
           // this.showMessage(json.text, 'success');
         }
         getList();
-        // alert(`${message} - ${title} -  ${type}`);
+        console.warn(`${message} - ${title} -  ${type}`);
       })
       .catch((error) => {
         console.error('Error:', error);

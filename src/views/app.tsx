@@ -14,6 +14,7 @@ import SignUp from './signup.tsx';
 import Tasks from './tasks.tsx';
 import Error from './error.tsx';
 import NavBar from '../layout/navbar.tsx';
+import LoggedIn from '../components/LoggedIn.tsx';
 
 function App() {
   return (
@@ -25,7 +26,14 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/tasks" element={<Tasks />} />
+            <Route
+              path="/tasks"
+              element={
+                <LoggedIn>
+                  <Tasks />
+                </LoggedIn>
+              }
+            />
             <Route path="*" element={<Error />} />
           </Route>
         </Routes>
